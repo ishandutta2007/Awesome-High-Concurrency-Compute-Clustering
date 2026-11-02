@@ -73,7 +73,7 @@ The table below compares top-tier hosted and managed platforms providing high-co
 
 The following high-performance open-source distributed engines, databases, and compute runtimes power modern self-hosted high-concurrency clusters. Repositories are sorted in descending order by GitHub stargazers. 🌟
 
-| Project & Repository | GitHub Stars ⭐ | Architecture & Primary Use Case 🎯 | Concurrency & Isolation Characteristics 🛡️ |
+| Project & Repository | GitHub_Stars ⭐ | Architecture & Primary Use Case 🎯 | Concurrency & Isolation Characteristics 🛡️ |
 | :--- | :--- | :--- | :--- |
 | **[ClickHouse](https://github.com/ClickHouse/ClickHouse)** | [![Stars](https://img.shields.io/github/stars/ClickHouse/ClickHouse?style=social&color=white)](https://github.com/ClickHouse/ClickHouse/stargazers) | Columnar MPP database for real-time analytics, observability, and time-series aggregation. | Uses **parallel replicas** dynamically distributing work across cluster nodes with cache-locality awareness; best for extreme single-table query throughput. |
 | **[Apache Spark](https://github.com/apache/spark)** | [![Stars](https://img.shields.io/github/stars/apache/spark?style=social&color=white)](https://github.com/apache/spark/stargazers) | Unified distributed compute engine for large-scale data engineering, streaming, and SQL. | Scales to thousands of nodes via Standalone, Kubernetes, or YARN; dynamic allocation adjusts executor pools dynamically based on task queue pressure. |
@@ -146,7 +146,7 @@ We welcome additions, updates, and architectural enhancements:
 1. **Fork the repository** to your personal account.
 2. **Add or modify entries** in [`README.md`](README.md):
    - For SaaS products, include company valuation/revenue, exact starting pricing, free tier/trial limits, and architectural concurrency highlights.
-   - For open-source projects, include the repository URL, valid GitHub star badge with `style=social&color=white`, and technical concurrency details.
+   - For open-source projects, include the repository URL, valid GitHub Stars_Badge with `style=social&color=white`, and technical concurrency details.
 3. **Verify all links and markdown formatting**.
 4. **Submit a Pull Request** with a concise description of your changes.
 
