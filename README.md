@@ -146,7 +146,7 @@ We welcome additions, updates, and architectural enhancements:
 1. **Fork the repository** to your personal account.
 2. **Add or modify entries** in [`README.md`](README.md):
    - For SaaS products, include company valuation/revenue, exact starting pricing, free tier/trial limits, and architectural concurrency highlights.
-   - For open-source projects, include the repository URL, valid GitHub Stars_Badge with `style=social&color=white`, and technical concurrency details.
+   - For open-source projects, include the repository URL, valid GitHub_Stars_Badge with `style=social&color=white`, and technical concurrency details.
 3. **Verify all links and markdown formatting**.
 4. **Submit a Pull Request** with a concise description of your changes.
 
