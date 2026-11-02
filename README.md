@@ -1,197 +1,142 @@
-# Awesome-High-Concurrency-Compute-Clustering
+# Awesome High-Concurrency Compute Clustering
 
-## Top High-Concurrency Compute Clustering Ecosystem
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![Tracked Systems](https://img.shields.io/badge/systems-SaaS%20%26%20Open%20Source-blue.svg)](README.md)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
 
-
-
-**Curated List of SaaS Products & Open-Source GitHub Projects**  
-
-*Focused on Elastic Compute Isolation, Distributed Query Execution & Self-Hosted Clustering Engines*  
-
-**Last updated: November 2026**
-
-
-
-This repository tracks notable **SaaS platforms** and **open-source projects** for **High-Concurrency Compute Clustering**. These systems enable organizations to serve many simultaneous users and queries without resource contention—isolating workloads, scaling compute elastically, and distributing query execution across clusters while maintaining consistent performance under load.
-
-
-
-**Examples** include Snowflake Multi-Cluster Warehouses, Amazon Redshift Multi-Cluster, Databricks Multi-Cluster, Google Cloud BigQuery Autoscaling, Starburst Galaxy, SingleStore Distributed Architecture, ClickHouse Distributed, CockroachDB Dedicated, YugabyteDB Managed, and Imply Polaris (the category leaders).
-
-
-
-**Open-source emphasis**: High-Concurrency Compute Clustering is a domain where open-source tooling is **genuinely capable but requires matching the architecture to the concurrency pattern**. **StarRocks** is the standout for elastic multi-tenant analytics—its **compute groups** (since v3.0) allow read-read, read-write, and write-write isolation without data migration, with minute-level scaling and a mature shared-data architecture for Snowflake-like elasticity . **ClickHouse** excels at single-table high-concurrency aggregation via **parallel replicas**—dynamically distributing query tasks across replicas with cache locality management . **CockroachDB** and **YugabyteDB** provide distributed SQL with Raft consensus for globally consistent transactional concurrency . The critical caveat: **Snowflake's multi-cluster warehouses are an Enterprise-tier feature**—Standard edition warehouses run a single cluster, and the max cluster count varies by warehouse size (SQL-only beyond 10) . Open-source alternatives require you to own the resource isolation configuration and operational tuning that commercial platforms abstract away.
-
-
-
-Contributions welcome! Open a PR to add/update entries. Keep descriptions factual and link to official sites.
-
-
-
-## Table of Contents
-
-- [SaaS/Hosted Platforms](#saas-products)
-
-- [Open-Source GitHub Projects](#open-source-github-projects)
-
-- [How to Contribute](#how-to-contribute)
-
-- [Disclaimer](#disclaimer)
-
-
-
-## SaaS/Hosted Platforms
-
-
-
-- **[Snowflake Multi-Cluster Warehouses](https://docs.snowflake.com/en/user-guide/warehouses-multicluster)**  
-
-  **Enterprise-tier feature** that automatically adds or removes clusters within a warehouse to handle concurrent queries without queuing . The **max cluster count** varies by warehouse size (SQL-only beyond 10; Snowsight caps at 10), and scaling policies can now adjust capacity by more than one cluster at a time . **Best for Snowflake Enterprise customers** needing concurrency scaling without manual intervention—but it is not available on Standard edition.
-
-
-
-- **[Amazon Redshift Multi-Cluster](https://docs.aws.amazon.com/redshift/latest/dg/datashare-overview.html)**  
-
-  **Data sharing with writes** across provisioned clusters and serverless workgroups—within an AWS account, across accounts, and across regions . Writes are committed and immediately visible to all consumers; producers control read-only vs. read-write access per namespace . **Best for organizations wanting workload isolation** (ETL cluster writing, BI clusters reading) with live data and no copying .
-
-
-
-- **[Databricks Multi-Cluster](https://docs.databricks.com/)**  
-
-  **Enhanced Autoscaling** (default for new Lakeflow Pipelines) proactively shuts down underutilized nodes and guarantees tasks do not fail during shutdown—unlike legacy autoscaling which only scales down idle nodes . Scales based on **task slot utilization** and **task queue size** . **Best for Spark/Pipeline workloads** needing concurrency-aware autoscaling—but enhanced autoscaling is only available on `updates` clusters; maintenance clusters use legacy autoscaling.
-
-
-
-- **[Google Cloud BigQuery Autoscaling](https://cloud.google.com/bigquery/docs/slots-autoscaling-intro)**  
-
-  **Slot-based autoscaling** with baseline and autoscaling slots; standard autoscaling retains peaks for 60 seconds before scaling down, while **fluid scaling** adjusts from second to second (still in 50-slot increments) . Idle slot sharing allows reservations to borrow unused baseline capacity from others with the same edition and region . **Best for BigQuery users** wanting serverless concurrency—but baseline increases depend on available capacity and should be planned ahead for large workloads.
-
-
-
-- **[Starburst Galaxy](https://www.starburst.io/)**  
-
-  Managed Trino platform with cluster autoscaling and workload isolation for high-concurrency SQL analytics across federated data sources.
-
-
-
-- **[SingleStore Distributed Architecture](https://www.singlestore.com/)**  
-
-  Distributed SQL with universal storage; supports high-concurrency transactional and analytical workloads in one system, with managed Helios offering.
-
-
-
-- **[CockroachDB Dedicated](https://www.cockroachlabs.com/)**  
-
-  Managed distributed SQL with Raft consensus for globally consistent concurrency; scales horizontally across regions with serializable isolation.
-
-
-
-- **[YugabyteDB Managed](https://www.yugabyte.com/)**  
-
-  Distributed SQL (Postgres and Cassandra-compatible) with Raft replication; positioned as a Spanner-inspired alternative with flexible geo-distribution .
-
-
-
-- **[Imply Polaris](https://imply.io/)**  
-
-  Managed Apache Druid with **auto-scaling** and reduced storage footprint compared to self-managed Druid; includes RBAC, SSO, audit logs, and 24/7 committer-led support . **Best for real-time analytics** needing Druid's slice-and-dice performance without operational burden.
-
-
-
-## Open-Source GitHub Projects
-
-
-
-### Elastic Multi-Tenant Analytics (StarRocks)
-
-
-
-- **[StarRocks](https://github.com/StarRocks/starrocks)**  
-
-  The **strongest open-source option for Snowflake-like elasticity** (Apache 2.0) . **Compute groups** (v3.0+) enable **read-read, read-write, and write-write isolation** without data migration; adding a compute group requires no data reshuffling, and scaling is minute-level . **Shared-data mode** (v3.0+) with K8s Operator provides second-level compute scaling and object-storage-backed data—the closest open-source approximation to Snowflake's decoupled storage/compute . **Primary Key model** with LSM-tree handles high-frequency upserts better than ClickHouse's ReplacingMergeTree, with immediate visibility and lower storage amplification . **CBO** is the most mature among ClickHouse/Doris/StarRocks for complex multi-table JOINs (5–10x faster than ClickHouse on star/snowflake schemas) . **Best for real-time warehouses with CDC updates and elastic concurrency**—but BE nodes need more memory for PK indexes.
-
-
-
-### High-Concurrency Single-Table Analytics (ClickHouse)
-
-
-
-- **[ClickHouse](https://github.com/ClickHouse/ClickHouse)**  
-
-  The **dominant open-source columnar engine for single-table extreme aggregation** (Apache 2.0) . **Parallel replicas** distribute query execution across replicas dynamically, with `parallel_replicas_custom_key` for work splitting and filter pushdown . **Limitations for concurrency**: **limited resource isolation**—one team's expensive query can degrade others; **upserts are weakest** among the three (mutations rewrite entire data parts, ReplacingMergeTree requires FINAL for correctness) . **Best for log and monitoring analytics** (high-throughput append, single-table aggregation) where its scan performance and compression are unmatched .
-
-
-
-### Distributed SQL for Transactional Concurrency (CockroachDB, YugabyteDB)
-
-
-
-- **[CockroachDB](https://github.com/cockroachdb/cockroach)**  
-
-  Distributed SQL with **Raft consensus** and serializable isolation; scales horizontally across regions for globally consistent transactional concurrency . **Best for globally distributed OLTP** needing strong consistency—but analytical capabilities are less mature than dedicated OLAP engines.
-
-
-
-- **[YugabyteDB](https://github.com/yugabyte/yugabyte-db)**  
-
-  Distributed SQL inspired by Google Spanner; Raft replication, PostgreSQL compatibility, and flexible geo-distribution options . **Best for organizations wanting Spanner-like architecture** with open-source licensing—competitive with CockroachDB on performance and compatibility.
-
-
-
-### Additional Strong Open-Source Options
-
-
-
-- **[Apache Doris](https://github.com/apache/doris)**  
-
-  MySQL-compatible MPP analytical database (Apache 2.0); compute groups available for workload isolation, but decoupled mode is younger than StarRocks . **Best for self-service analytics** with SQL standard compatibility—JOIN performance is weaker than StarRocks .
-
-- **[Apache Druid](https://github.com/apache/druid)**  
-
-  Real-time analytics database with segment-based storage; Imply Polaris is the managed path . **Best for high-concurrency time-series dashboards**—but operational complexity is high and joins are weak.
-
-
-
-**Frameworks for building custom systems**: For **Snowflake-like elastic multi-tenant analytics with CDC upserts**, StarRocks is the mature open-source standard . For **single-table high-concurrency aggregation**, ClickHouse with parallel replicas . For **globally consistent transactional concurrency**, CockroachDB or YugabyteDB . For **real-time dashboards without operational burden**, Imply Polaris . **No open-source project matches Snowflake's managed multi-cluster warehouses**—that requires Enterprise edition and hands-off cluster management .
-
-
-
-## How to Contribute
-
-
-
-1. Fork the repo.
-
-2. Add/edit entries in `README.md` (follow existing format).
-
-3. Include: name, link, 1–2 sentence description, and whether it's SaaS or open-source.
-
-4. Submit PR with a short explanation.
-
-
-
-Star the repo if you find it useful!
-
-
-
-## Disclaimer
-
-
-
-- This is a **community-curated** list — not exhaustive and not an endorsement.
-
-- High-concurrency compute clustering systems handling production workloads must comply with organizational security policies and data governance requirements; **self-hosted solutions place full responsibility for resource isolation tuning, scaling configuration, and query performance under load on the operator**.
-
-- **Open-source compute clustering is mature but workload-dependent**—**StarRocks provides the closest open-source approximation to Snowflake's elastic multi-tenancy** via compute groups and shared-data mode , while **ClickHouse excels at single-table aggregation but lacks resource isolation** . **Snowflake's multi-cluster warehouses are Enterprise-only**—Standard edition warehouses cannot scale beyond one cluster . Choose based on whether you need elastic multi-tenant isolation (StarRocks), single-table speed (ClickHouse), or distributed transactional consistency (CockroachDB/YugabyteDB).
-
-- Verify license terms for commercial use; StarRocks, ClickHouse, CockroachDB, YugabyteDB, Apache Doris, and Apache Druid are all open-source (check repositories for specific licenses).
-
-
+A curated list of leading enterprise **SaaS products** and battle-tested **open-source distributed compute frameworks** engineered for **High-Concurrency Compute Clustering**, elastic workload isolation, massively parallel processing (MPP), and distributed query execution under extreme query-per-second (QPS) scale.
 
 ---
 
+## Table of Contents
 
+- [Overview](#overview)
+- [Sector Overview & Market Dynamics](#sector-overview--market-dynamics)
+- [Enterprise SaaS & Hosted Platforms](#enterprise-saashosted-platforms)
+- [Open-Source Compute Clustering Engines](#open-source-compute-clustering-engines)
+- [Architecture & Selection Guide](#architecture--selection-guide)
+- [How to Contribute](#how-to-contribute)
+- [Disclaimer](#disclaimer)
 
-**Made for data platform engineers, analytics architects, and organizations designing for high-concurrency workloads.**  
+---
 
-Let's make high-concurrency compute clustering more open, but with clear eyes about the Enterprise-tier gating and resource isolation gaps that commercial platforms still enforce.
+## Overview
+
+Modern data-intensive enterprises face the challenge of serving tens of thousands of concurrent analytical and transactional queries across mixed workloads—such as low-latency business intelligence (BI) dashboards, complex ad-hoc analytics, automated data transformations, and machine learning pipelines—without resource starvation or query queuing.
+
+**High-concurrency compute clustering** addresses this challenge via:
+- **Decoupled Storage and Compute:** Independent elasticity allowing compute clusters to scale without rebalancing storage.
+- **Compute Groups & Workload Isolation:** Segmenting read, write, and ingestion workloads to prevent noisy-neighbor degradation.
+- **Dynamic Slot/Replica Scheduling:** Distributing query tasks dynamically across worker clusters with cache-locality awareness.
+- **Multi-Raft Consensus:** Ensuring global ACID transactional consistency under massive concurrent write throughput.
+
+---
+
+## Sector Overview & Market Dynamics
+
+The global cloud data warehousing and distributed query engine market is estimated at **$14.2 billion** (projected to exceed **$52 billion by 2032** growing at ~23.5% CAGR), while the high-concurrency distributed database market accounts for an additional **$2.8 billion to $12 billion** across OLAP and Distributed SQL tiers. 
+
+The sector is **moderately concentrated** at the top tier: hyperscalers (Google Cloud BigQuery, AWS Redshift) and specialized market leaders (Snowflake, Databricks) capture the vast majority of enterprise spend through deeply integrated cloud ecosystems. However, the operational layer remains **vibrantly fragmented** around real-time OLAP, federated query engines, and open-source distributed runtimes (e.g., ClickHouse, StarRocks, Ray, Trino, Apache Spark), where specialized workloads resist a single "winner-take-all" outcome.
+
+---
+
+## Enterprise SaaS/Hosted Platforms
+
+The table below compares top-tier hosted and managed platforms providing high-concurrency elastic compute clustering, ranked in descending order by company valuation / market capitalization.
+
+| SaaS / Hosted Platform | Company Size (Valuation / Revenue) | Starting Pricing (Specific Tier) | Free Tier / Trial Limits | Key Concurrency Architecture |
+| :--- | :--- | :--- | :--- | :--- |
+| **[Google Cloud BigQuery Autoscaling](https://cloud.google.com/bigquery/docs/slots-autoscaling-intro)** | **~$2.1 Trillion** (Alphabet MCap) / ~$350B+ Revenue | **$0.04 per slot-hour** (Standard Edition autoscaling slots); $6.25 per TiB on on-demand | **Free forever tier:** 1 TiB query analysis scanned per month + 10 GiB active/long-term storage free each month (on-demand model) | Slot-based fluid autoscaling with dynamic idle slot sharing across reservations in 50-slot increments without query queuing. |
+| **[Amazon Redshift Multi-Cluster](https://aws.amazon.com/redshift/)** | **~$2.0 Trillion** (Amazon MCap) / ~$600B+ Revenue | **$0.375 per RPU-hour** (Serverless, 60-second minimum); or $0.25/hr for provisioned dc2.large | **$300 free credit** valid for **90 days** for Amazon Redshift Serverless; or **2-month free trial** of 750 dc2.large hours/month | Multi-cluster data sharing with live transactional writes across provisioned clusters and serverless workgroups without data replication. |
+| **[Snowflake Multi-Cluster Warehouses](https://docs.snowflake.com/en/user-guide/warehouses-multicluster)** | **~$55 Billion** (Snowflake MCap) / ~$3.6B ARR | **$3.00 per credit** (Enterprise Edition list price, AWS US East; required for multi-cluster warehouses) | **30-day free trial** with **$400 in free usage credits**; no permanent free tier | Automatically adds/removes worker clusters (1 to 10+ clusters per warehouse) dynamically based on concurrency load and scaling policy. |
+| **[Databricks Multi-Cluster](https://www.databricks.com/)** | **~$43 Billion** (Private Valuation) / ~$2.6B+ ARR | **$0.55 per DBU-hour** (Premium All-Purpose Compute, AWS US East) + underlying cloud VM costs | **14-day free trial** of Databricks platform DBU compute (cloud VM infrastructure billed separately by provider) | Enhanced Autoscaling dynamically monitors task slot queue depth and proactive node lifecycle management for multi-cluster lakehouses. |
+| **[CockroachDB Dedicated](https://www.cockroachlabs.com/)** | **~$5.0 Billion** (Valuation) / ~$150M+ Revenue | **$0.18 per vCPU-hour** (Standard tier baseline); Serverless at $0.10 per 10M Request Units beyond free tier | **Free forever basic tier:** 50M Request Units (RUs) and 10 GB storage free each month; Dedicated includes custom proof-of-concept credits | Distributed SQL engine backed by multi-Raft consensus, automated range splitting, and cross-region elastic scale for ACID concurrency. |
+| **[Starburst Galaxy](https://www.starburst.io/)** | **~$3.35 Billion** (Valuation) / ~$100M+ Revenue | **$0.50 per credit** (Pro Tier); Enterprise Tier starts at **$0.75 per credit** | **30-day free trial** with **$500 in free credits** (Enterprise tier features); downgrades to free tier with up to 3 forever-free clusters | Fully-managed Trino platform featuring Warp Speed query acceleration, cluster autoscaling, and cross-cloud federated query execution. |
+| **[SingleStore Distributed Architecture](https://www.singlestore.com/)** | **~$1.3 Billion** (Valuation) / ~$100M+ ARR | **$0.99 per hour** (S-00 workspace tier: 0.25 Compute Credits/hr @ $3.96/credit on-demand) | **Free Shared Tier:** Forever-free shared-compute workspace with 1 GB compressed storage; plus **$600 in promotional trial credits** | Single-engine universal storage (rowstore + columnar) handling concurrent transactional ingest and analytical queries simultaneously. |
+| **[YugabyteDB Managed](https://www.yugabyte.com/)** | **~$1.3 Billion** (Valuation) / ~$75M+ Revenue | **$0.17 per vCPU-hour** (Pay-as-you-go capacity rate on Standard Cloud) | **Free forever sandbox cluster:** 1 node, 2 vCPUs, 4 GB RAM, 10 GB storage; plus a **14-day full-feature trial** with multi-node dedicated clusters | Spanner-inspired distributed SQL engine (PostgreSQL compatible) featuring Raft replication and localized read replicas for high throughput. |
+| **[Imply Polaris](https://imply.io/)** | **~$1.1 Billion** (Valuation) / ~$60M+ ARR | **$0.137 per hour** (Starter Project tier: 4 vCPUs, 16 GB RAM, 25 GB storage) | **30-day free trial** with **$500 in platform credits**; streaming and batch ingestion fees waived during trial | Managed Apache Druid service with auto-scaling compute groups, sub-second OLAP slicing, and decoupled deep storage. |
+
+---
+
+## Open-Source Compute Clustering Engines
+
+The following high-performance open-source distributed engines, databases, and compute runtimes power modern self-hosted high-concurrency clusters. Repositories are sorted in descending order by GitHub stargazers.
+
+| Project & Repository | GitHub Stars | Architecture & Primary Use Case | Concurrency & Isolation Characteristics |
+| :--- | :--- | :--- | :--- |
+| **[ClickHouse](https://github.com/ClickHouse/ClickHouse)** | [![Stars](https://img.shields.io/github/stars/ClickHouse/ClickHouse?style=social&color=white)](https://github.com/ClickHouse/ClickHouse/stargazers) | Columnar MPP database for real-time analytics, observability, and time-series aggregation. | Uses **parallel replicas** dynamically distributing work across cluster nodes with cache-locality awareness; best for extreme single-table query throughput. |
+| **[Apache Spark](https://github.com/apache/spark)** | [![Stars](https://img.shields.io/github/stars/apache/spark?style=social&color=white)](https://github.com/apache/spark/stargazers) | Unified distributed compute engine for large-scale data engineering, streaming, and SQL. | Scales to thousands of nodes via Standalone, Kubernetes, or YARN; dynamic allocation adjusts executor pools dynamically based on task queue pressure. |
+| **[Ray](https://github.com/ray-project/ray)** | [![Stars](https://img.shields.io/github/stars/ray-project/ray?style=social&color=white)](https://github.com/ray-project/ray/stargazers) | Unified framework for scaling AI, machine learning training, hyperparameter tuning, and Python apps. | Actor-based distributed scheduling with microsecond task latency and auto-scaling clusters across heterogeneous CPU/GPU compute pools. |
+| **[DuckDB](https://github.com/duckdb/duckdb)** | [![Stars](https://img.shields.io/github/stars/duckdb/duckdb?style=social&color=white)](https://github.com/duckdb/duckdb/stargazers) | High-performance embeddable analytical database with columnar vectorized execution. | Maximizes per-node multi-threaded concurrency; frequently embedded as worker nodes within distributed serverless orchestration tiers. |
+| **[CockroachDB](https://github.com/cockroachdb/cockroach)** | [![Stars](https://img.shields.io/github/stars/cockroachdb/cockroach?style=social&color=white)](https://github.com/cockroachdb/cockroach/stargazers) | Distributed SQL database with multi-active availability and serializable ACID consistency. | Implements Raft consensus per range and distributed leaseholder routing to handle massive concurrent transaction rates across geographically dispersed nodes. |
+| **[Apache Flink](https://github.com/apache/flink)** | [![Stars](https://img.shields.io/github/stars/apache/flink?style=social&color=white)](https://github.com/apache/flink/stargazers) | Distributed stream and batch processing framework for stateful computations. | Fine-grained resource isolation and slot sharing groups enable high-throughput low-latency event processing with exactly-once state semantics under load. |
+| **[Vitess](https://github.com/vitessio/vitess)** | [![Stars](https://img.shields.io/github/stars/vitessio/vitess?style=social&color=white)](https://github.com/vitessio/vitess/stargazers) | Cloud-native horizontal database clustering and sharding middleware for MySQL. | Handles massive horizontal connection pooling via VTGate proxy routers; splits query load and protects backend databases from connection floods. |
+| **[Presto](https://github.com/prestodb/presto)** | [![Stars](https://img.shields.io/github/stars/prestodb/presto?style=social&color=white)](https://github.com/prestodb/presto/stargazers) | Distributed MPP SQL query engine for large-scale interactive analytics across multiple sources. | Separates coordinator and worker nodes; dynamic pipelined execution streams intermediate data over the network without writing to local disk. |
+| **[Apache Doris](https://github.com/apache/doris)** | [![Stars](https://img.shields.io/github/stars/apache/doris?style=social&color=white)](https://github.com/apache/doris/stargazers) | High-speed MPP analytical database featuring vectorized execution and MySQL compatibility. | Decoupled compute groups allow independent read/write isolation; vectorized query engine provides high concurrency across interactive dashboards. |
+| **[Apache Druid](https://github.com/apache/druid)** | [![Stars](https://img.shields.io/github/stars/apache/druid?style=social&color=white)](https://github.com/apache/druid/stargazers) | High-performance real-time analytics database designed for sub-second analytical queries. | Segment-based distributed architecture separating Historical, Broker, and MiddleManager processes for concurrent slicing and dicing. |
+| **[Dask](https://github.com/dask/dask)** | [![Stars](https://img.shields.io/github/stars/dask/dask?style=social&color=white)](https://github.com/dask/dask/stargazers) | Flexible library for parallel computing and task scheduling in Python. | Dynamic distributed task graphs with responsive work-stealing schedulers enable multi-tenant cluster compute on HPC and Kubernetes clusters. |
+| **[Trino](https://github.com/trinodb/trino)** | [![Stars](https://img.shields.io/github/stars/trinodb/trino?style=social&color=white)](https://github.com/trinodb/trino/stargazers) | High-concurrency MPP SQL query engine for data lakes, lakehouses, and federated stores. | Employs adaptive cluster queuing, cost-based optimizer (CBO), and fault-tolerant task-level execution for concurrent multi-tenant querying. |
+| **[Citus](https://github.com/citusdata/citus)** | [![Stars](https://img.shields.io/github/stars/citusdata/citus?style=social&color=white)](https://github.com/citusdata/citus/stargazers) | Open-source PostgreSQL extension that transforms Postgres into a distributed multi-tenant database. | Shards tables across worker nodes and parallelizes query execution while routing tenant-specific queries to dedicated nodes for workload isolation. |
+| **[StarRocks](https://github.com/StarRocks/starrocks)** | [![Stars](https://img.shields.io/github/stars/StarRocks/starrocks?style=social&color=white)](https://github.com/StarRocks/starrocks/stargazers) | Next-generation sub-second MPP database designed for Snowflake-like elasticity. | **Compute groups** allow complete read-read, read-write, and write-write isolation on object storage without data migration; outstanding CBO for complex multi-table JOINs. |
+| **[YugabyteDB](https://github.com/yugabyte/yugabyte-db)** | [![Stars](https://img.shields.io/github/stars/yugabyte/yugabyte-db?style=social&color=white)](https://github.com/yugabyte/yugabyte-db/stargazers) | Cloud-native distributed SQL database supporting PostgreSQL wire compatibility. | Spanner-style architecture using DocDB and Raft replication; distributes tablet leaders and read replicas horizontally to absorb concurrent transactional loads. |
+| **[Apache Arrow DataFusion](https://github.com/apache/arrow-datafusion)** | [![Stars](https://img.shields.io/github/stars/apache/arrow-datafusion?style=social&color=white)](https://github.com/apache/arrow-datafusion/stargazers) | Extensible, vectorized SQL query engine written in Rust using Apache Arrow memory format. | Serves as the compute core for next-gen distributed clustering engines (e.g., Ballista); offers unmatched thread-level multi-core concurrency. |
+| **[Apache Iceberg](https://github.com/apache/iceberg)** | [![Stars](https://img.shields.io/github/stars/apache/iceberg?style=social&color=white)](https://github.com/apache/iceberg/stargazers) | Open table format for massive analytic datasets with full ACID transaction guarantees. | Optimistic concurrency control (OCC) enables multiple isolated compute engines (Spark, Trino, Flink, StarRocks) to concurrently write and read snapshot data safely. |
+| **[Apache Pinot](https://github.com/apache/pinot)** | [![Stars](https://img.shields.io/github/stars/apache/pinot?style=social&color=white)](https://github.com/apache/pinot/stargazers) | Real-time distributed OLAP datastore designed for ultra-low latency analytics at scale. | Highly optimized for user-facing high-QPS applications; horizontally partitioned segments and specialized indexes provide millisecond response times under tens of thousands of QPS. |
+
+---
+
+## Architecture & Selection Guide
+
+Selecting the appropriate high-concurrency compute clustering architecture depends directly on query workload patterns, latency requirements, and operational constraints:
+
+```mermaid
+flowchart TD
+    Start["Evaluate Primary Concurrency Requirement"] --> Workload{"Workload Type"}
+    
+    Workload -->|"OLAP & Analytics"| OlapPattern{"Concurrency Pattern"}
+    Workload -->|"OLTP & Transactions"| OltpPattern{"Consistency Requirement"}
+    Workload -->|"General Compute & AI"| ComputePattern{"Compute Abstraction"}
+
+    OlapPattern -->|"Single-table log/metric aggregation"| ClickHouseEngine["ClickHouse / Apache Druid"]
+    OlapPattern -->|"Multi-table JOINs + CDC upserts"| StarRocksEngine["StarRocks / Apache Doris"]
+    OlapPattern -->|"Federated Lakehouse queries"| TrinoEngine["Trino / Presto / Starburst"]
+    OlapPattern -->|"User-facing 100k+ QPS dashboards"| PinotEngine["Apache Pinot"]
+
+    OltpPattern -->|"Global serializable ACID"| CockroachEngine["CockroachDB Dedicated / OSS"]
+    OltpPattern -->|"Postgres compatibility + geo-sharding"| YugabyteEngine["YugabyteDB / Citus"]
+    OltpPattern -->|"Massive MySQL sharding"| VitessEngine["Vitess"]
+
+    ComputePattern -->|"Distributed AI/ML & Python tasks"| RayEngine["Ray"]
+    ComputePattern -->|"Batch & Stream pipelines"| SparkEngine["Apache Spark / Flink"]
+```
+
+### Key Architectural Trade-Offs
+
+1. **Shared-Data vs. Shared-Nothing:**
+   - **Shared-Data (Object Storage):** StarRocks, Snowflake, BigQuery. Decouples compute from storage; compute clusters can be scaled to zero, paused, or multiplied without reshuffling underlying data.
+   - **Shared-Nothing (Local NVMe/Disks):** Traditional ClickHouse, Apache Druid. Offers highest raw IOPS for local cache hits, but scaling requires rebalancing data partitions across worker nodes.
+
+2. **Workload Isolation:**
+   - **Compute Groups / Virtual Warehouses:** Isolate background batch ETL jobs from interactive BI queries so that long-running transformations never monopolize CPU cycles or query queues.
+   - **Dynamic Queue Management:** Commercial platforms (Snowflake, BigQuery) manage queuing transparently at the cloud control plane; open-source deployments require fine-tuned resource groups or proxy gateways (e.g., VTGate, Trino coordinator queuing).
+
+---
+
+## How to Contribute
+
+We welcome additions, updates, and architectural enhancements:
+
+1. **Fork the repository** to your personal account.
+2. **Add or modify entries** in [`README.md`](README.md):
+   - For SaaS products, include company valuation/revenue, exact starting pricing, free tier/trial limits, and architectural concurrency highlights.
+   - For open-source projects, include the repository URL, valid GitHub star badge with `style=social&color=white`, and technical concurrency details.
+3. **Verify all links and markdown formatting**.
+4. **Submit a Pull Request** with a concise description of your changes.
+
+---
+
+## Disclaimer
+
+- This curated collection is maintained by the community for informational, architectural, and educational purposes. Mention of specific vendors or products does not constitute an official endorsement.
+- All brand names, trademarks, product names, and registered trademarks cited are the property of their respective holders.
+- Pricing metrics, free tier quotas, and corporate valuations represent public rate cards and market data available as of late 2026 and are subject to change. Always verify official vendor documentation and repositories before making enterprise infrastructure procurement decisions.
