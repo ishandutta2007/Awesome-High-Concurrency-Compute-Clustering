@@ -1,50 +1,61 @@
-# Awesome High-Concurrency Compute Clustering
+<p align="center">
+  <img src="assets/banner.svg" alt="Awesome High-Concurrency Compute Clustering Banner" width="100%" />
+</p>
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![Tracked Systems](https://img.shields.io/badge/systems-SaaS%20%26%20Open%20Source-blue.svg)](README.md)
-[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
+# ⚡ Awesome High-Concurrency Compute Clustering 🚀
 
-A curated list of leading enterprise **SaaS products** and battle-tested **open-source distributed compute frameworks** engineered for **High-Concurrency Compute Clustering**, elastic workload isolation, massively parallel processing (MPP), and distributed query execution under extreme query-per-second (QPS) scale.
+<p align="center">
+  <a href="https://github.com/ishandutta2007/Awesome-Awesome-Awesome"><img src="https://img.shields.io/badge/Awesome-%E2%9C%94-blueviolet?style=flat-square&logo=github" alt="Awesome"/></a>
+  <a href="https://discord.gg/jc4xtF58Ve"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" /></a>
+  <a href="https://github.com/ishandutta2007/Awesome-Awesome-Awesome"><img src="https://awesome.re/badge.svg" alt="Awesome List" /></a>
+  <a href="README.md"><img src="https://img.shields.io/badge/systems-SaaS%20%26%20Open%20Source-blue.svg" alt="Tracked Systems" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-green.svg" alt="License" /></a>
+  <a href="https://github.com/ishandutta2007"><img alt="GitHub followers" src="https://img.shields.io/github/followers/ishandutta2007?label=Follow" /></a>
+</p>
 
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Sector Overview & Market Dynamics](#sector-overview--market-dynamics)
-- [Enterprise SaaS & Hosted Platforms](#enterprise-saashosted-platforms)
-- [Open-Source Compute Clustering Engines](#open-source-compute-clustering-engines)
-- [Architecture & Selection Guide](#architecture--selection-guide)
-- [How to Contribute](#how-to-contribute)
-- [Disclaimer](#disclaimer)
+A curated directory of elite enterprise **SaaS platforms** ☁️ and battle-tested **open-source distributed compute frameworks** 🛠️ engineered for **High-Concurrency Compute Clustering**, elastic workload isolation, massively parallel processing (MPP), and distributed query execution under extreme query-per-second (QPS) scale.
 
 ---
 
-## Overview
+## 📑 Table of Contents
 
-Modern data-intensive enterprises face the challenge of serving tens of thousands of concurrent analytical and transactional queries across mixed workloads—such as low-latency business intelligence (BI) dashboards, complex ad-hoc analytics, automated data transformations, and machine learning pipelines—without resource starvation or query queuing.
+- [📌 Overview](#-overview)
+- [📊 Sector Overview & Market Dynamics](#-sector-overview--market-dynamics)
+- [☁️ Enterprise SaaS & Hosted Platforms](#️-enterprise-saas--hosted-platforms)
+- [🛠️ Open-Source Compute Clustering Engines](#️-open-source-compute-clustering-engines)
+- [🏗️ Architecture & Selection Guide](#️-architecture--selection-guide)
+- [⭐ Star History](#-star-history)
+- [🤝 How to Contribute](#-how-to-contribute)
+- [💖 Support & Sponsorship](#-support--sponsorship)
+- [📜 Disclaimer](#-disclaimer)
+
+---
+
+## 📌 Overview
+
+Modern data-intensive enterprises face the challenge of serving tens of thousands of concurrent analytical and transactional queries across mixed workloads—such as low-latency business intelligence (BI) dashboards 📈, complex ad-hoc analytics 🔍, automated data transformations 🔄, and machine learning pipelines 🤖—without resource starvation or query queuing.
 
 **High-concurrency compute clustering** addresses this challenge via:
-- **Decoupled Storage and Compute:** Independent elasticity allowing compute clusters to scale without rebalancing storage.
-- **Compute Groups & Workload Isolation:** Segmenting read, write, and ingestion workloads to prevent noisy-neighbor degradation.
-- **Dynamic Slot/Replica Scheduling:** Distributing query tasks dynamically across worker clusters with cache-locality awareness.
-- **Multi-Raft Consensus:** Ensuring global ACID transactional consistency under massive concurrent write throughput.
+- 🧊 **Decoupled Storage and Compute:** Independent elasticity allowing compute clusters to scale dynamically without rebalancing storage.
+- 🛡️ **Compute Groups & Workload Isolation:** Segmenting read, write, and ingestion workloads to prevent noisy-neighbor degradation.
+- ⚡ **Dynamic Slot/Replica Scheduling:** Distributing query tasks dynamically across worker clusters with cache-locality awareness.
+- 🔄 **Multi-Raft Consensus:** Ensuring global ACID transactional consistency under massive concurrent write throughput.
 
 ---
 
-## Sector Overview & Market Dynamics
+## 📊 Sector Overview & Market Dynamics
 
-The global cloud data warehousing and distributed query engine market is estimated at **$14.2 billion** (projected to exceed **$52 billion by 2032** growing at ~23.5% CAGR), while the high-concurrency distributed database market accounts for an additional **$2.8 billion to $12 billion** across OLAP and Distributed SQL tiers. 
+The global cloud data warehousing and distributed query engine market is estimated at **$14.2 billion** (projected to exceed **$52 billion by 2032** growing at ~23.5% CAGR), while the high-concurrency distributed database market accounts for an additional **$2.8 billion to $12 billion** across OLAP and Distributed SQL tiers. 🌐
 
-The sector is **moderately concentrated** at the top tier: hyperscalers (Google Cloud BigQuery, AWS Redshift) and specialized market leaders (Snowflake, Databricks) capture the vast majority of enterprise spend through deeply integrated cloud ecosystems. However, the operational layer remains **vibrantly fragmented** around real-time OLAP, federated query engines, and open-source distributed runtimes (e.g., ClickHouse, StarRocks, Ray, Trino, Apache Spark), where specialized workloads resist a single "winner-take-all" outcome.
+The sector is **moderately concentrated** at the top tier: hyperscalers (Google Cloud BigQuery, AWS Redshift) and specialized market leaders (Snowflake, Databricks) capture the vast majority of enterprise spend through deeply integrated cloud ecosystems. However, the operational layer remains **vibrantly fragmented** around real-time OLAP, federated query engines, and open-source distributed runtimes (e.g., ClickHouse, StarRocks, Ray, Trino, Apache Spark), where specialized workloads resist a single "winner-take-all" outcome. 💡
 
 ---
 
-## Enterprise SaaS/Hosted Platforms
+## ☁️ Enterprise SaaS & Hosted Platforms
 
-The table below compares top-tier hosted and managed platforms providing high-concurrency elastic compute clustering, ranked in descending order by company valuation / market capitalization.
+The table below compares top-tier hosted and managed platforms providing high-concurrency elastic compute clustering, ranked in descending order by company valuation / market capitalization. 💼
 
-| SaaS / Hosted Platform | Company Size (Valuation / Revenue) | Starting Pricing (Specific Tier) | Free Tier / Trial Limits | Key Concurrency Architecture |
+| SaaS / Hosted Platform | Company Size (Valuation / Revenue) 🏢 | Starting Pricing (Specific Tier) 💳 | Free Tier / Trial Limits 🎁 | Key Concurrency Architecture ⚙️ |
 | :--- | :--- | :--- | :--- | :--- |
 | **[Google Cloud BigQuery Autoscaling](https://cloud.google.com/bigquery/docs/slots-autoscaling-intro)** | **~$2.1 Trillion** (Alphabet MCap) / ~$350B+ Revenue | **$0.04 per slot-hour** (Standard Edition autoscaling slots); $6.25 per TiB on on-demand | **Free forever tier:** 1 TiB query analysis scanned per month + 10 GiB active/long-term storage free each month (on-demand model) | Slot-based fluid autoscaling with dynamic idle slot sharing across reservations in 50-slot increments without query queuing. |
 | **[Amazon Redshift Multi-Cluster](https://aws.amazon.com/redshift/)** | **~$2.0 Trillion** (Amazon MCap) / ~$600B+ Revenue | **$0.375 per RPU-hour** (Serverless, 60-second minimum); or $0.25/hr for provisioned dc2.large | **$300 free credit** valid for **90 days** for Amazon Redshift Serverless; or **2-month free trial** of 750 dc2.large hours/month | Multi-cluster data sharing with live transactional writes across provisioned clusters and serverless workgroups without data replication. |
@@ -58,11 +69,11 @@ The table below compares top-tier hosted and managed platforms providing high-co
 
 ---
 
-## Open-Source Compute Clustering Engines
+## 🛠️ Open-Source Compute Clustering Engines
 
-The following high-performance open-source distributed engines, databases, and compute runtimes power modern self-hosted high-concurrency clusters. Repositories are sorted in descending order by GitHub stargazers.
+The following high-performance open-source distributed engines, databases, and compute runtimes power modern self-hosted high-concurrency clusters. Repositories are sorted in descending order by GitHub stargazers. 🌟
 
-| Project & Repository | GitHub Stars | Architecture & Primary Use Case | Concurrency & Isolation Characteristics |
+| Project & Repository | GitHub Stars ⭐ | Architecture & Primary Use Case 🎯 | Concurrency & Isolation Characteristics 🛡️ |
 | :--- | :--- | :--- | :--- |
 | **[ClickHouse](https://github.com/ClickHouse/ClickHouse)** | [![Stars](https://img.shields.io/github/stars/ClickHouse/ClickHouse?style=social&color=white)](https://github.com/ClickHouse/ClickHouse/stargazers) | Columnar MPP database for real-time analytics, observability, and time-series aggregation. | Uses **parallel replicas** dynamically distributing work across cluster nodes with cache-locality awareness; best for extreme single-table query throughput. |
 | **[Apache Spark](https://github.com/apache/spark)** | [![Stars](https://img.shields.io/github/stars/apache/spark?style=social&color=white)](https://github.com/apache/spark/stargazers) | Unified distributed compute engine for large-scale data engineering, streaming, and SQL. | Scales to thousands of nodes via Standalone, Kubernetes, or YARN; dynamic allocation adjusts executor pools dynamically based on task queue pressure. |
@@ -85,7 +96,7 @@ The following high-performance open-source distributed engines, databases, and c
 
 ---
 
-## Architecture & Selection Guide
+## 🏗️ Architecture & Selection Guide
 
 Selecting the appropriate high-concurrency compute clustering architecture depends directly on query workload patterns, latency requirements, and operational constraints:
 
@@ -110,7 +121,7 @@ flowchart TD
     ComputePattern -->|"Batch & Stream pipelines"| SparkEngine["Apache Spark / Flink"]
 ```
 
-### Key Architectural Trade-Offs
+### ⚖️ Key Architectural Trade-Offs
 
 1. **Shared-Data vs. Shared-Nothing:**
    - **Shared-Data (Object Storage):** StarRocks, Snowflake, BigQuery. Decouples compute from storage; compute clusters can be scaled to zero, paused, or multiplied without reshuffling underlying data.
@@ -122,7 +133,13 @@ flowchart TD
 
 ---
 
-## How to Contribute
+## 📈 Star History
+
+[![Star History Chart](https://star-history.dera.page/svg?repos=ishandutta2007/Awesome-High-Concurrency-Compute-Clustering&type=date&legend=top-left)](https://star-history.dera.page/#ishandutta2007/Awesome-High-Concurrency-Compute-Clustering&type=date&legend=top-left)
+
+---
+
+## 🤝 How to Contribute
 
 We welcome additions, updates, and architectural enhancements:
 
@@ -135,7 +152,18 @@ We welcome additions, updates, and architectural enhancements:
 
 ---
 
-## Disclaimer
+## 💖 Support & Sponsorship
+
+Thank you for visiting and exploring the **Awesome High-Concurrency Compute Clustering** repository! If you find this curated collection useful for your architectural research or enterprise infrastructure planning, please consider supporting the project:
+
+- ⭐ **Star this repository** on GitHub to help others discover it.
+- 🍴 **Fork and contribute** new systems, benchmarks, or documentation improvements.
+- 📢 **Share this resource** with your engineering team, on LinkedIn, X, or tech communities.
+- ☕ **Buy a coffee & sponsor**: If this project has saved you engineering time, consider sponsoring the author via the [GitHub Sponsors Dashboard](https://github.com/sponsors/ishandutta2007). Your support helps keep this guide current, accurate, and continuously maintained!
+
+---
+
+## 📜 Disclaimer
 
 - This curated collection is maintained by the community for informational, architectural, and educational purposes. Mention of specific vendors or products does not constitute an official endorsement.
 - All brand names, trademarks, product names, and registered trademarks cited are the property of their respective holders.
